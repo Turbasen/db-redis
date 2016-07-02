@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  redis:
+    image: redis:3
+
+  node:
+    image: node:argon
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    links:
+      - redis
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_LOGLEVEL=silent
+      - NPM_CONFIG_PROGRESS=false
+      - NPM_CONFIG_SPIN=false
+    command: npm run test:watch
